@@ -1,0 +1,1 @@
+{"name":"Local: Not_sitting","url":"/home/abhish44-soe/Codeforces/Not_sitting.cpp","tests":[{"id":1667716987300,"input":"2\n4 3\n1 2\n","output":"3 3 4 4 4 4 4 4 5 5 5 5 \n1 1 \n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/abhish44-soe/Codeforces/Not_sitting.cpp","group":"local","local":true}
