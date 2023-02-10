@@ -20,25 +20,51 @@ bool cmps(pii a,pii b)
 {
     return a.ss<b.ss;
 }
-bool checker(vi a,vi b,vi arr,ll x)
+bool checker(vi a,vi b,ll x)
 {
-    vector<pii> temp;
-    REP(i,0,arr.size())
+    ll count=1;
+    REP(i,0,a.size())
     {
-        pii rich;
-        rich.ff=(x-a[i]);
-        rich.ss=x;
-        pii poor;
-        poor.ff=1;
-        poor.ss=b[i]+1;
-        temp.pb({max(rich.ff,poor.ff),min(rich.ss,poor.ss)});
+        if(a[i]>=x-count && b[i]>=count-1)
+        {
+            count++;
+        }
+        if(count==x+1)
+        {
+            return true;
+        }
     }
-    
+    return false;
 }
 void  solve()
 {
+    ll n;cin>>n;
+    vi a(n);vi b(n);
+    REP(i,0,n)
+    {
+        cin>>a[i]>>b[i];
+    }
 
+    ll l=1,r=n+1;
+    ll temp=40;
+    ll ans=l;
+    while(temp--)
+    {
+        ll mid=(l+r)/2;
+        bool check=checker(a,b,mid);
+        if(check)
+        {
+            ans=max(ans,mid);
+            l=mid;
+        }
+        else
+        {
+            r=mid;
+        }
+    }
+    cout<<ans;
 }
+
 int main()
 {
     ll t;
