@@ -16,12 +16,12 @@ using namespace std;
 #define REP(i,a,b) for(int i=a;i<b;i++)
 #define input vi arr;REP(i,0,n){ll ele;cin>>ele;arr.pb(ele);}
 #define MOD (ll)(1e9+7)
-#define mod (ll)998244353
 bool cmps(pii a,pii b)
 {
     return a.ss<b.ss;
 }
 
+//modular expo
 ll power(ll x, ll y, ll p=(ll)(1e9+7))
 {
     int res = 1;  
@@ -38,13 +38,23 @@ ll power(ll x, ll y, ll p=(ll)(1e9+7))
 }
 void  solve()
 {
-    
+    ll m,n;cin>>n>>m;
+    vi arr(m+n+1,0);
+    arr[0]=1;
+    REP(i,1,m+n+1)
+    {
+        arr[i]=(arr[i-1]*i)%MOD;
+    }
+    ll val=((arr[m+n-1])*(power(arr[m],MOD-2)))%MOD;
+    val=(val*(power(arr[n-1],MOD-2)))%MOD;
+    cout<<val;
+    return;
 }
 int main()
 {
-    ll t;
-    cin>>t;
-    while(t--)
+    // ll t;
+    // cin>>t;
+    // while(t--)
     {
         solve();
         cout<<"\n";

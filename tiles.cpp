@@ -38,13 +38,15 @@ ll power(ll x, ll y, ll p=(ll)(1e9+7))
 }
 void  solve()
 {
-    
+    ll w,h;cin>>w>>h;
+    ll val=power(2,(h+w),mod);
+    cout<<val;
 }
 int main()
 {
-    ll t;
-    cin>>t;
-    while(t--)
+    // ll t;
+    // cin>>t;
+    // while(t--)
     {
         solve();
         cout<<"\n";

@@ -3,7 +3,7 @@
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace __gnu_pbds;
 using namespace std;
-#define ordered_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
+#define ordered_set tree<ll, null_type,less<ll>, rb_tree_tag,tree_order_statistics_node_update>
 #define ll long long
 #define ff first
 #define ss second
@@ -13,7 +13,7 @@ using namespace std;
 #define pii pair<ll,ll>
 #define vi vector<ll>
 #define endl '\n'
-#define REP(i,a,b) for(int i=a;i<b;i++)
+#define REP(i,a,b) for(ll i=a;i<b;i++)
 #define input vi arr;REP(i,0,n){ll ele;cin>>ele;arr.pb(ele);}
 #define MOD (ll)(1e9+7)
 #define mod (ll)998244353
@@ -21,10 +21,9 @@ bool cmps(pii a,pii b)
 {
     return a.ss<b.ss;
 }
-
 ll power(ll x, ll y, ll p=(ll)(1e9+7))
 {
-    int res = 1;  
+    ll res = 1;  
     x = x % p; 
     if (x == 0) return 0;
     while (y > 0)
@@ -36,9 +35,48 @@ ll power(ll x, ll y, ll p=(ll)(1e9+7))
     }
     return res;
 }
+// all prime factors of n
+vi primeFactors(ll n)
+{
+    vi ans;
+    // Print the number of 2s that divide n
+    if(n%2==0)
+    {
+        ans.pb(2);
+    }
+    while (n % 2 == 0)
+    {
+        n = n/2;
+    }
+    for (int i = 3; i <= sqrt(n); i = i + 2)
+    {
+        if(n%i==0)
+        {
+            ans.pb(i);
+        }
+        while (n % i == 0)
+        {
+            n = n/i;
+        }
+    }
+    if (n > 2)
+    ans.pb(n);
+
+    return ans;
+}
 void  solve()
 {
-    
+    ll n;cin>>n;
+    vi arr=primeFactors(n);
+    ll ans=1;
+    ll base=1;
+    REP(i,0,arr.size())
+    {
+        ans*=(arr[i]-1);
+        base*=arr[i];
+    }
+    ans*=(n/base);
+    cout<<ans;
 }
 int main()
 {

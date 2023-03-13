@@ -23,17 +23,51 @@ bool cmps(pii a,pii b)
 
 void  solve()
 {
-    int n;cin>>n;
-    vi arr(n);
-    REP(i,0,n-1)
+    ll n,m;cin>>n>>m;
+    string arr,brr;
+    cin>>arr>>brr;
+    ll count=0;
+    // REP(i,0,n-1)
+    // {
+    //     if(arr[i]!=arr[i+1])
+    //     {
+    //         count++;
+    //     }
+    // }
+    // REP(i,0,m-1)
+    // {
+    //     if(brr[i]!=brr[i+1])
+    //     {
+    //         count++;
+    //     }
+    // }
+    // if(count!=(m+n)-2)
+    // {
+    //     cout<<"NO";
+    //     return;
+    // }
+    // if(arr[n-1]==brr[n-1])
+    // {
+    //     cout<<"NO";
+    //     return;
+    // }
+    for(int i=m-1;i>=0;i--)
     {
-        arr[i]=i+2;
+        arr.pb(brr[i]);
     }
-    arr[n-1]=1;
-    REP(i,0,n)
+    REP(i,0,n+m-1)
     {
-        cout<<arr[i]<<' ';
+        if(arr[i]==arr[i+1])
+        {
+            count++;
+        }
     }
+    if(count>1)
+    {
+        cout<<"NO";
+        return;
+    }
+    cout<<"YES";
 }
 int main()
 {

@@ -16,13 +16,11 @@ using namespace std;
 #define REP(i,a,b) for(int i=a;i<b;i++)
 #define input vi arr;REP(i,0,n){ll ele;cin>>ele;arr.pb(ele);}
 #define MOD (ll)(1e9+7)
-#define mod (ll)998244353
 bool cmps(pii a,pii b)
 {
     return a.ss<b.ss;
 }
-
-ll power(ll x, ll y, ll p=(ll)(1e9+7))
+int power(ll x, ll y, ll p=(ll)(1e9+7))
 {
     int res = 1;  
     x = x % p; 
@@ -38,13 +36,41 @@ ll power(ll x, ll y, ll p=(ll)(1e9+7))
 }
 void  solve()
 {
+    ll n;cin>>n;
+    ll root=1;
+    vector<pii> arr;
+    bool odd=0;
+    ll x=1;
+    vi val;
+    REP(I,0,n)
+    {
+        ll ele1,ele2;
+        cin>>ele1>>ele2;
+        arr.pb({ele1,ele2});
+        x=(x*power(ele1,ele2))%MOD;
+        if(ele2&1)
+        odd=1;
+        // if(sq)
+        // {
+        //     root=(root*(power(ele1,ele2/2)))%MOD;
+        // }
+    }
+    ll num=1;ll sum=1;
+    REP(i,0,n)
+    {
+        num=(num*(arr[i].ss+1)%MOD)%MOD;
+        sum=(sum*(((power(arr[i].ff,arr[i].ss+1)-1)%MOD)*(power(arr[i].ff-1,MOD-2))))%MOD;
+    }
+    ll prod=1;
     
+    cout<<num<<" "<<sum<<" "<<prod;
+    return;
 }
 int main()
 {
-    ll t;
-    cin>>t;
-    while(t--)
+    // ll t;
+    // cin>>t;
+    // while(t--)
     {
         solve();
         cout<<"\n";

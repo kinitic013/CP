@@ -124,3 +124,88 @@ vector<bool> SieveOfEratosthenes(int n)
     }
     return prime;
 }
+//Prime cound
+vector<ll> PrimeCount(ll n)
+{
+    vector<bool> arr=SieveOfEratosthenes(n);
+    vi ans(n+1,0);
+    REP(i,1,n+1)
+    {
+        if(arr[i])
+        {
+            ans[i]=ans[i-1]+1;
+        }
+        else
+        {
+            ans[i]=ans[i-1];
+        }
+    }
+    return ans;
+}
+
+//modular expo
+int power(ll x, ll y, ll p=(ll)(1e9+7))
+{
+    int res = 1;  
+    x = x % p; 
+    if (x == 0) return 0;
+    while (y > 0)
+    {
+        if (y & 1)
+            res = (res*x) % p;
+        y = y>>1; // y = y/2
+        x = (x*x) % p;
+    }
+    return res;
+}
+// array containing all divisors
+vi Divisors(ll n)
+{
+    vi ans;
+    // Note that this loop runs till square root
+    for (ll i=1; i<=sqrt(n); i++)
+    {
+        if (n%i == 0)
+        {
+            // If divisors are equal, prll only one
+            if (n/i == i)
+                ans.pb(i);
+            else
+            {
+                ans.pb(i);
+                ans.pb(n/i);
+            }     
+        }
+    }
+    return ans;
+}
+
+// all prime factors of n
+vi primeFactors(ll n)
+{
+    vi ans;
+    // Print the number of 2s that divide n
+    if(n%2==0)
+    {
+        ans.pb(2);
+    }
+    while (n % 2 == 0)
+    {
+        n = n/2;
+    }
+    for (int i = 3; i <= sqrt(n); i = i + 2)
+    {
+        if(n%i==0)
+        {
+            ans.pb(i);
+        }
+        while (n % i == 0)
+        {
+            n = n/i;
+        }
+    }
+    if (n > 2)
+    ans.pb(n);
+
+    return ans;
+}
