@@ -3,7 +3,7 @@
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace __gnu_pbds;
 using namespace std;
-#define ordered_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
+#define ordered_set tree<ll, null_type,less<ll>, rb_tree_tag,tree_order_statistics_node_update>
 #define ll long long
 #define ff first
 #define ss second
@@ -13,9 +13,9 @@ using namespace std;
 #define pii pair<ll,ll>
 #define vi vector<ll>
 #define endl '\n'
-#define REP(i,a,b) for(int i=a;i<b;i++)
+#define REP(i,a,b) for(ll i=a;i<b;i++)
 #define input vi arr;REP(i,0,n){ll ele;cin>>ele;arr.pb(ele);}
-int find(vi arr,int key)
+ll find(vi arr,ll key)
 {
     REP(j,0,arr.size())
     {
@@ -26,10 +26,10 @@ int find(vi arr,int key)
     }
     return -1;
 }
-void Rshift(vi &arr, int key,int times)
+void Rshift(vi &arr, ll key,ll times)
 {
     ll idx=times-1;
-    int n=arr.size();
+    ll n=arr.size();
     times=times%key;
     vi temp;
     //shifted part
@@ -52,9 +52,9 @@ void Rshift(vi &arr, int key,int times)
 
 
 
-void helper(vi arr,vector<vector<ll>> &result,int i)
+void helper(vi arr,vector<vector<ll>> &result,ll i)
 {
-    int n=arr.size();
+    ll n=arr.size();
     if(i==n)
     {
         return;
@@ -97,7 +97,7 @@ ll sqrtt(ll x) {
 vector<vector<ll>> subset(vi arr)
 {
     vector<vector<ll>> result;
-    int n=arr.size();
+    ll n=arr.size();
     helper(arr,result,0);
     for(auto temp:result)
     {
@@ -110,15 +110,15 @@ vector<vector<ll>> subset(vi arr)
     return result;
 }
 //seive
-vector<bool> SieveOfEratosthenes(int n)
+vector<bool> SieveOfEratosthenes(ll n)
 {
     vector<bool> prime(n+1,true);
     prime[0]=false;
     prime[1]=false;
     prime[2]=true;
-    for (int p = 2; p * p <= n; p++) {
+    for (ll p = 2; p * p <= n; p++) {
         if (prime[p] == true) {
-            for (int i = p * p; i <= n; i += p)
+            for (ll i = p * p; i <= n; i += p)
                 prime[i] = false;
         }
     }
@@ -144,9 +144,9 @@ vector<ll> PrimeCount(ll n)
 }
 
 //modular expo
-int power(ll x, ll y, ll p=(ll)(1e9+7))
+ll power(ll x, ll y, ll p=(ll)(1e9+7))
 {
-    int res = 1;  
+    ll res = 1;  
     x = x % p; 
     if (x == 0) return 0;
     while (y > 0)
@@ -184,7 +184,7 @@ vi Divisors(ll n)
 vi primeFactors(ll n)
 {
     vi ans;
-    // Print the number of 2s that divide n
+    // Prll the number of 2s that divide n
     if(n%2==0)
     {
         ans.pb(2);
@@ -193,7 +193,7 @@ vi primeFactors(ll n)
     {
         n = n/2;
     }
-    for (int i = 3; i <= sqrt(n); i = i + 2)
+    for (ll i = 3; i <= sqrt(n); i = i + 2)
     {
         if(n%i==0)
         {
@@ -208,4 +208,45 @@ vi primeFactors(ll n)
     ans.pb(n);
 
     return ans;
+}
+
+void modInverse(ll A, ll M=(ll)(1e9+7))
+{
+    ll x, y;
+    ll g = gcdExtended(A, M, &x, &y);
+    if (g != 1)
+        cout << "Inverse doesn't exist";
+    else {
+ 
+        // m is added to handle negative x
+        ll res = (x % M + M) % M;
+        cout << "Modular multiplicative inverse is " << res;
+    }
+}
+ 
+// Function for extended Euclidean Algorithm
+ll gcdExtended(ll a, ll b, ll* x, ll* y)
+{
+ 
+    // Base Case
+    if (a == 0) {
+        *x = 0, *y = 1;
+        return b;
+    }
+ 
+    // To store results of recursive call
+    ll x1, y1;
+    ll gcd = gcdExtended(b % a, a, &x1, &y1);
+ 
+    // Update x and y using results of recursive
+    // call
+    *x = y1 - (b / a) * x1;
+    *y = x1;
+ 
+    return gcd;
+}
+// log a to base b
+int log_a_to_base_b(int a, int b)
+{
+    return log2(a) / log2(b);
 }

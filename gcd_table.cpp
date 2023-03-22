@@ -38,13 +38,49 @@ ll power(ll x, ll y, ll p=(ll)(1e9+7))
 }
 void  solve()
 {
-    
+    ll n;
+    cin>>n;
+    multiset<ll> arr;
+    REP(i,0,n*n)
+    {
+        ll ele;cin>>ele;
+        arr.insert(ele);
+    }
+    vi ans;
+    ll idx=0;
+    auto it=arr.end();
+    --it;
+    while(!arr.empty())
+    {
+        idx++;
+        it=--arr.end();
+        ll val=*it;
+        arr.erase(it);
+        REP(i,0,ans.size())
+        {
+            ll counter=2;
+            ll ele=__gcd(ans[i],val);
+            while(counter--)
+            {
+                auto add=arr.find(ele);
+                arr.erase(add);
+            }
+        }
+        ans.pb(val);
+    }
+    REP(i,0,ans.size())
+    {
+        cout<<ans[i]<<" ";
+    }
+    return;
+
+
 }
 int main()
 {
-    ll t;
-    cin>>t;
-    while(t--)
+    // ll t;
+    // cin>>t;
+    // while(t--)
     {
         solve();
         cout<<"\n";

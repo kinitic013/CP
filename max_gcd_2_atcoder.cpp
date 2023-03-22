@@ -38,13 +38,25 @@ ll power(ll x, ll y, ll p=(ll)(1e9+7))
 }
 void  solve()
 {
-    
+    ll a,b;cin>>a>>b;
+    ll ans=1;
+    REP(i,2,b+1)
+    {
+        ll val1=(a/i);
+        if(a%i!=0) val1++;
+        ll val2=(b/i);
+        if(val2-val1>0)
+        {
+            ans=max(ans,i);
+        }
+    }
+    cout<<ans;
 }
 int main()
 {
-    ll t;
-    cin>>t;
-    while(t--)
+    // ll t;
+    // cin>>t;
+    // while(t--)
     {
         solve();
         cout<<"\n";

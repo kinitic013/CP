@@ -36,8 +36,42 @@ ll power(ll x, ll y, ll p=(ll)(1e9+7))
     }
     return res;
 }
+vi primeFactors(ll n)
+{
+    vi ans;
+    // Prll the number of 2s that divide n
+    while (n % 2 == 0)
+    {
+        n = n/2;ans.pb(2);
+    }
+    for (ll i = 3; i <= sqrt(n); i = i + 2)
+    {
+
+        while (n % i == 0)
+        {
+            {
+                ans.pb(i);
+            }
+            n = n/i;
+        }
+    }
+    if (n > 2)
+    ans.pb(n);
+
+    return ans;
+}
+
 void  solve()
 {
+    ll x,r;cin>>x>>r;
+    vi arr=primeFactors(x);
+    if(arr.size()<r)
+    {
+        cout<<0;
+    }
+    else
+    cout<<1;
+    return;
     
 }
 int main()

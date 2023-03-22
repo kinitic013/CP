@@ -1,0 +1,1 @@
+{"name":"Local: row_gcd","url":"/home/kinitic013/Desktop/cf/CP/row_gcd.cpp","tests":[{"id":1678963342344,"input":"4 4\n1 25 121 169\n1 2 7 23","output":""},{"id":1678963708074,"input":"1 1\n45\n54","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/kinitic013/Desktop/cf/CP/row_gcd.cpp","group":"local","local":true}

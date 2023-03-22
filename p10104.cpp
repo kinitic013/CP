@@ -36,15 +36,35 @@ ll power(ll x, ll y, ll p=(ll)(1e9+7))
     }
     return res;
 }
+pii fun(ll a,ll b, ll g)
+{
+    if(b==0)
+    {
+        pii ans;
+        ans.ff=1;
+        ans.ss=0;
+        return ans;
+    }
+    pii ans;
+    ans=fun(b,a%b,g);
+    pii res;
+    res.ff=ans.ss;
+    res.ss=(ans.ff-((a/b)*ans.ss));
+    return res;
+}
 void  solve()
 {
-    
+    ll a,b;
+    cin>>a>>b;
+    ll g=__gcd(a,b);
+    pii ans=fun(a,b,g);
+    cout<<min(ans.ss,ans.ff)<<" "<<max(ans.ss,ans.ff)<<" "<<g;
 }
 int main()
 {
-    ll t;
-    cin>>t;
-    while(t--)
+    // ll t;
+    // cin>>t;
+    // while(t--)
     {
         solve();
         cout<<"\n";

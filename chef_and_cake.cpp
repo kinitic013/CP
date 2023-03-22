@@ -38,7 +38,28 @@ ll power(ll x, ll y, ll p=(ll)(1e9+7))
 }
 void  solve()
 {
-    
+    ll n,m;cin>>n>>m;
+    ll val=n/__gcd(m,n);
+    if(n==1 && m==0)
+    {
+        cout<<"Yes";
+        return;
+    }
+    if(m==0)
+    {
+        cout<<"No "<<1;
+        return;
+    }
+    if(__gcd(m,n)==1)
+    {
+        cout<<"Yes";
+        return;
+    }
+    else
+    {
+        cout<<"No "<<val;
+        return;
+    }
 }
 int main()
 {
