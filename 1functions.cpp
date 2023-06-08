@@ -246,7 +246,37 @@ ll gcdExtended(ll a, ll b, ll* x, ll* y)
     return gcd;
 }
 // log a to base b
-int log_a_to_base_b(int a, int b)
+ll log_a_to_base_b(ll a, ll b)
 {
     return log2(a) / log2(b);
+}
+//lcm hcf
+ll gcd( ll a, ll b)
+{
+  if (b == 0)
+    return a;
+  return gcd(b, a % b);
+}
+ 
+// Function to return LCM of two numbers
+ll lcm(ll a, ll b)
+{
+    return (a / gcd(a, b)) * b;
+}
+//random number
+ll randomNumber(ll a,ll b){
+    return a + (rand() % b);
+}
+
+bool IntegerPalindromeCheck(ll n)
+{
+    string arr=to_string(n);
+    ll i=0;ll j=arr.size()-1;
+    while(i<=j)
+    {
+        if(arr[i]!=arr[j])
+        return false;
+        i++;j--;
+    }
+    return true;
 }

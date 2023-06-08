@@ -1,0 +1,1 @@
+{"name":"Local: palindrome_basis","url":"/home/kinitic013/Desktop/cf/CP/palindrome_basis.cpp","tests":[{"id":1685006539408,"input":"2\n5\n12","output":""},{"id":1685007848422,"input":"1\n40000","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/kinitic013/Desktop/cf/CP/palindrome_basis.cpp","group":"local","local":true}
