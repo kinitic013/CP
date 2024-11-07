@@ -1,1 +1,0 @@
-{"name":"Local: taxes","url":"/home/kinitic013/Desktop/cf/CP/taxes.cpp","tests":[{"id":1679047606947,"input":"9","output":""},{"id":1679047835793,"input":"27","output":""},{"id":1679047841008,"input":"999991817","output":"3"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/kinitic013/Desktop/cf/CP/taxes.cpp","group":"local","local":true}

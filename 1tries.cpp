@@ -36,7 +36,7 @@ public :
     void insert(string str)
     {
         Node* it=root;
-        for(int i=0;i<str.length();i++)
+        for(int i=0;i<str.size();i++)
         {
             auto add=it->children.find(str[i]);   
             if(add==it->children.end())//not found
@@ -60,7 +60,7 @@ public :
     bool search(string str)
     {
         Node* it=root;
-        for(int i=0;i<str.length();i++)
+        for(int i=0;i<str.size();i++)
         {
             auto add=it->children.find(str[i]);
             if(add==it->children.end())//not found
@@ -79,7 +79,7 @@ public :
     int numberOfString(string str)
     {
         Node* it=root;
-        for(int i=0;i<str.length();i++)
+        for(int i=0;i<str.size();i++)
         {
             auto add=it->children.find(str[i]);
             if(add==it->children.end())//not found

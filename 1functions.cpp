@@ -3,18 +3,25 @@
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace __gnu_pbds;
 using namespace std;
-#define ordered_set tree<ll, null_type,less<ll>, rb_tree_tag,tree_order_statistics_node_update>
+#define ordered_set tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update>
 #define ll long long
 #define ff first
 #define ss second
 #define pb push_back
-#define mp make_pair
-#define mii map<ll,ll>
-#define pii pair<ll,ll>
-#define vi vector<ll>
 #define endl '\n'
-#define REP(i,a,b) for(ll i=a;i<b;i++)
-#define input vi arr;REP(i,0,n){ll ele;cin>>ele;arr.pb(ele);}
+#define mp make_pair
+#define mii map<ll, ll>
+#define pii pair<ll, ll>
+#define vi vector<ll>
+#define vvi vector<vi>
+#define vb vector<bool>
+#define vpii vector<pii>
+#define pairMinHeap priority_queue<pii , vpii, greater<pii> > 
+#define all(x) (x).begin(), (x).end()
+#define REP(i, a, b) for (ll i = a; i < b; i++)
+#define revREP(i,a,b) for (ll i = a ; i>b ; i--)
+#define MOD (ll)(1e9 + 7)
+#define mod (ll)998244353
 ll find(vi arr,ll key)
 {
     REP(j,0,arr.size())
@@ -50,7 +57,39 @@ void Rshift(vi &arr, ll key,ll times)
 
 }
 
+bool dfs_loop(vvi&adj,vb& visited,vb& loop,ll node,ll parent,ll& start)
+{
+    visited[node] = 1;
 
+    for(auto x:adj[node])
+    {
+        if(x != parent)
+        {
+            if(visited[x])
+            {
+                start = x;
+                loop[node] = 1;
+                return 1;
+            }
+            else
+            {
+                bool check = dfs_loop(adj,visited,loop,x,node,start);
+                if(node == start)
+                {
+                    loop[node] = 1;
+                    return false;
+                }
+                if(check)
+                {
+                    loop[node] = 1;
+                    return check;
+
+                }
+            }
+        }
+    }
+    return 0;
+}
 
 void helper(vi arr,vector<vector<ll>> &result,ll i)
 {
@@ -108,6 +147,56 @@ vector<vector<ll>> subset(vi arr)
         cout<<endl;
     }
     return result;
+}
+vector<bool> sieve_mobius(ll n,vi& um)
+{
+    um = vi(n+1,1);
+    vector<bool> primes(n+1,true);
+    primes[1] = 0;
+    REP(i,2,n+1)
+    {
+        if(primes[i])
+        {
+            for(int j = i ;j<=n;j+=i)
+            {
+                if(j>i) primes[j] = 0;
+                if(j%(i*i)==0) um[j] = 0;
+                um[j] = -um[j];
+            }
+        }
+    }
+    return primes;
+}
+ll maxn = 1e6+1;
+vector<ll> lp(maxn,0);
+void sieve()
+{
+    lp[1] = 1;
+    for(ll i = 2 ; i<maxn ; ++i)
+    {
+        if(!lp[i])
+        {
+            lp[i] = i;
+            for(ll j=i*i ; j<maxn ; j+=i)
+            {   
+                if(!lp[j]) lp[j] = i;
+            }   
+        }
+    }
+}
+vector<ll> count(maxn,0);
+vi sievePrimes(ll n)
+{
+    vi primes;
+    ll ele = n;
+    while(ele>1)
+    {
+        ll prime = lp[ele];
+        primes.pb(prime);
+        while(ele%prime == 0)
+        ele /= prime;
+    }
+    return primes;
 }
 //seive
 vector<bool> SieveOfEratosthenes(ll n)
@@ -192,22 +281,8 @@ vi primeFactors(ll n)
     }
     if (n > 2)
     ans.pb(n);
-
+    
     return ans;
-}
-
-void modInverse(ll A, ll M=(ll)(1e9+7))
-{
-    ll x, y;
-    ll g = gcdExtended(A, M, &x, &y);
-    if (g != 1)
-        cout << "Inverse doesn't exist";
-    else {
- 
-        // m is added to handle negative x
-        ll res = (x % M + M) % M;
-        cout << "Modular multiplicative inverse is " << res;
-    }
 }
  
 // Function for extended Euclidean Algorithm
@@ -282,6 +357,12 @@ ll power(ll x, ll y, ll p=(ll)(1e9+7))
     return res;
 }
 
+// Returns n^(-1) mod p
+ll modInverse(long long n, ll p)
+{
+    return power(n, p - 2, p);
+}
+
 ///Rolling Hash funciton 
 
 ll rollingHashFunction(string arr)
@@ -298,4 +379,112 @@ ll rollingHashFunction(string arr)
         prime=(prime*p)%MOD;
     }
     return hash;
+}
+
+// ncr
+#define MOD 1000000007
+#define N  200007
+ll fact[N + 1];
+ll inv[N + 1];
+ll invFact[N + 1];
+void compute()
+{
+
+    inv[0] = inv[1] = 1;
+
+    for (int i = 2; i <= N; i++)
+    {
+        inv[i] = (inv[MOD % i] * (MOD - MOD / i)) % MOD;
+    }
+
+    invFact[0] = invFact[1] = 1;
+    for (int  i = 2; i <= N; i++)
+    {
+        invFact[i] = (invFact[i - 1] * inv[i]) % MOD;
+    }
+
+    fact[0] = fact[1] = 1;
+    for (int i = 2; i <= N; i++)
+    {
+        fact[i] = (fact[i - 1] * i) % MOD;
+    }
+}
+ll ncr(ll n, ll k) {
+		return (((fact[n] * invFact[k]) % MOD) * invFact[n - k]) % MOD;
+}
+vi nextSmallerRight(vi&arr)
+{
+    int n = arr.size();
+    vi res(n,LONG_LONG_MAX);
+    stack<ll> s;
+    for(int i=n-1;i>=0;i--)
+    {
+        while(!s.empty())
+        {
+            ll top = s.top();
+            if(arr[top] >= arr[i])
+            {
+                s.pop();
+            }
+            else
+            {
+                res[i] = top;
+                break;
+            }
+        }
+        if(res[i] == LONG_LONG_MAX)
+        {
+            res[i] = n;
+        }
+        s.push(i);
+    }
+    // debug(res);
+    return res;
+}
+vi nextSmallerLeft(vi&arr)
+{
+    int n = arr.size();
+    vi res(n,LONG_LONG_MAX);
+    stack<ll> s;
+    REP(i,0,n)
+    {
+        while(!s.empty())
+        {
+            ll top = s.top();
+            if(arr[top] >= arr[i])
+            {
+                s.pop();
+            }
+            else
+            {
+                res[i] = top;
+                break;
+            }
+        }
+        if(res[i] == LONG_LONG_MAX)
+        {
+            res[i] = -1;
+        }
+        s.push(i);
+    }
+    // debug(res);
+    return res;
+}
+void add(ll &a, ll b) {
+    a += b;
+    if (a >= MOD)
+        a -= MOD;
+}
+ 
+ll sum(ll a, ll b) {
+    a += b;
+    if (a >= MOD)
+        a -= MOD;
+    if (a < 0)
+        a += MOD;
+    return a;
+}
+ 
+ll mul(ll a, ll b) {
+    return (a * 1LL * b) % MOD;
 }

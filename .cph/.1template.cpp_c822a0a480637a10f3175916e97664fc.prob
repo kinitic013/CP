@@ -1,1 +1,0 @@
-{"name":"Local: 1template","url":"/home/abhish44-soe/Codeforces/1template.cpp","tests":[{"id":1675867603996,"input":"1\n5\n1 5 6 6 11","output":"0"},{"id":1675872195433,"input":"2\n4\n1 6 8 0\n10\n5 5 7 0 1 0 4 7 9 4","output":"3\n0"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/abhish44-soe/Codeforces/1template.cpp","group":"local","local":true}

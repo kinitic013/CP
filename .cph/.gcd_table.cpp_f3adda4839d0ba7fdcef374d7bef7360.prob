@@ -1,1 +1,0 @@
-{"name":"Local: gcd_table","url":"/home/kinitic013/Desktop/cf/CP/gcd_table.cpp","tests":[{"id":1679414144639,"input":"\n4\n2 1 2 3 4 3 2 6 1 1 2 2 1 2 3 2\n","output":""},{"id":1679422014027,"input":"2\n1 1 1 1","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/kinitic013/Desktop/cf/CP/gcd_table.cpp","group":"local","local":true}

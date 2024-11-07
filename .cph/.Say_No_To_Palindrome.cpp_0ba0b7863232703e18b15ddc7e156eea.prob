@@ -1,0 +1,1 @@
+{"name":"Local: Say_No_To_Palindrome","url":"/home/kinitic013/Desktop/Competitive Programming/CP/Say_No_To_Palindrome.cpp","tests":[{"id":1710017178729,"input":"5 4\nbaacb\n1 3\n1 5\n4 5\n2 3","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/kinitic013/Desktop/Competitive Programming/CP/Say_No_To_Palindrome.cpp","group":"local","local":true}

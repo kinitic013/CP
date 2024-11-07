@@ -1,46 +1,70 @@
-#include<bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
+// C++ Program for Floyd Warshall Algorithm
+#include <bits/stdc++.h>
 using namespace std;
-#define ordered_set tree<ll, null_type,less<ll>, rb_tree_tag,tree_order_statistics_node_update>
-#define ll long long
-#define ff first
-#define ss second
-#define pb push_back
-#define mp make_pair
-#define mii map<ll,ll>
-#define pii pair<ll,ll>
-#define vi vector<ll>
-#define all(x) (x).begin(),(x).end()
-#define endl '\n'
-#define REP(i,a,b) for(ll i=a;i<b;i++)
-#define input vi arr;REP(i,0,n){ll ele;cin>>ele;arr.pb(ele);}
-#define MOD (ll)(1e9+7)
-#define mod (ll)998244353
-bool isPowerOfTwo(int n)
+
+// Number of vertices in the graph
+#define V 4
+
+/* Define Infinite as a large enough
+value.This value will be used for
+vertices not connected to each other */
+#define INF 99999
+
+// A function to print the solution matrix
+void printSolution(int dist[][V]);
+
+// Solves the all-pairs shortest path
+// problem using Floyd Warshall algorithm
+void floydWarshall(int dist[][V])
 {
-    if (n == 0)
-        return false;
- 
-    return (ceil(log2(n)) == floor(log2(n)));
+
+	int i, j, k;
+	for (k = 0; k < V; k++) {
+		// Pick all vertices as source one by one
+		for (i = 0; i < V; i++) {
+			// Pick all vertices as destination for the
+			// above picked source
+			for (j = 0; j < V; j++) {
+				// If vertex k is on the shortest path from
+				// i to j, then update the value of
+				// dist[i][j]
+				if (dist[i][j] > (dist[i][k] + dist[k][j])
+					&& (dist[k][j] != INF
+						&& dist[i][k] != INF))
+					dist[i][j] = dist[i][k] + dist[k][j];
+			}
+		}
+	}
+
+	// Print the shortest distance matrix
+	printSolution(dist);
 }
-bool cmps(pii a,pii b)
+void printSolution(int dist[][V])
 {
-    return a.ss<b.ss;
-}
-void  solve()
-{
-    
+	cout << "The following matrix shows the shortest "
+			"distances"
+			" between every pair of vertices \n";
+	for (int i = 0; i < V; i++) {
+		for (int j = 0; j < V; j++) {
+			if (dist[i][j] == INF)
+				cout << "INF"
+					<< " ";
+			else
+				cout << dist[i][j] << " ";
+		}
+		cout << endl;
+	}
 }
 int main()
 {
-    ll t;
-    cin>>t;
-    while(t--)
-    {
-        solve();
-        cout<<"\n";
-    }
-    return 0;
+	int graph[V][V] = { { 0, 5, INF, 10 },
+						{ INF, 0, 3, INF },
+						{ INF, INF, 0, 1 },
+						{ INF, INF, INF, 0 } };
+
+	// Function call
+	floydWarshall(graph);
+	return 0;
 }
+
+// This code is contributed by Mythri J L

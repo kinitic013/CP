@@ -1,1 +1,0 @@
-{"name":"Local: Move_and_turn","url":"/home/abhish44-soe/Codeforces/Move_and_turn.cpp","tests":[{"id":1669801961454,"input":"10\n1 2 3 4 5 6 7 8 9 10","output":""},{"id":1669803249842,"input":"1\n999","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/abhish44-soe/Codeforces/Move_and_turn.cpp","group":"local","local":true}

@@ -1,1 +1,0 @@
-{"name":"Local: Vasya_and_Petyas_Game","url":"/home/kinitic013/Desktop/cf/CP/Vasya_and_Petyas_Game.cpp","tests":[{"id":1678991812789,"input":"\n4\n","output":"3\n2 4 3 \n"},{"id":1678996555820,"input":"1\n10","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/kinitic013/Desktop/cf/CP/Vasya_and_Petyas_Game.cpp","group":"local","local":true}

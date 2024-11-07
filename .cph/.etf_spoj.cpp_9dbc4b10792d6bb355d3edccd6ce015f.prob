@@ -1,1 +1,0 @@
-{"name":"Local: etf_spoj","url":"/home/kinitic013/Desktop/cf/CP/etf_spoj.cpp","tests":[{"id":1678700540100,"input":"5\n1\n2\n3\n4\n5","output":"1\n1\n2\n2\n4"},{"id":1678710497818,"input":"1\n1000000","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/kinitic013/Desktop/cf/CP/etf_spoj.cpp","group":"local","local":true}
