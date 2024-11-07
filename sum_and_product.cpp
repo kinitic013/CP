@@ -13,8 +13,6 @@ using namespace std;
 #define mii map<ll, ll>
 #define pii pair<ll, ll>
 #define vi vector<ll>
-#define vvi vector<vi>
-#define vb vector<bool>
 #define all(x) (x).begin(), (x).end()
 #define endl '\n'
 #define REP(i, a, b) for (ll i = a; i < b; i++)
@@ -25,6 +23,20 @@ void fast()
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
+}
+bool cmps(pii &a, pii &b)
+{
+    return a.ss < b.ss;
+}
+bool isInteger(double N)
+{
+    ll X = N;
+    double temp2 = N - X;
+ 
+    if (temp2 > (double)0.0) {
+        return false;
+    }
+    return true;
 }
 long long my_sqrt(long long a)
 {
@@ -37,48 +49,55 @@ long long my_sqrt(long long a)
     }
     return l;
 }
-bool cmps(pii &a, pii &b)
-{
-    return a.ss < b.ss;
-}
 void solve()
 {
-    ll n,k;
-    cin>>n>>k;
-    vi arr(n);
-    vi left(n);
-    vi right(n);
-    vb present(k+1,false);
+    ll n;cin>>n;
+    vi arr(n) ;
+    map<ll,ll> fre;
     REP(i,0,n)
     {
         cin>>arr[i];
-        present[arr[i]]=1;
+        fre[arr[i]]++;
     }
-    left[0] = arr[0];
-    right[n-1] = arr[n-1];
-    REP(i,1,n)
+    ll q;cin>>q;
+    vector<pii> query;
+    REP(i,0,q)
     {
-        left[i]=max(left[i-1],arr[i]);
-    }
-    for(ll i = n-2;i>=0;i--)
-    {
-        right[i] = max(right[i+1],arr[i]);
-    }
-    reverse(all(right));
-    REP(i,1,k+1)
-    {
-        if(!present[i])
+        ll b,c;cin>>b>>c;
+        b*=-1;
+
+        double d=(double)my_sqrt((ll)((double)(b*b)-4*c));
+        if(d<(double)0)
         {
             cout<<0<<" ";
             continue;
         }
-        auto l = lower_bound(all(left),i);
-        auto r = lower_bound(all(right),i);
+        else if(d>=(double)0)
+        {
+            ll root1=(double)(-b+d)/(double)2;
+            ll root2=(double)(-b-d)/(double)2;
 
-        ll idx1 = l-left.begin();
-        ll idx2 = n-1-(r-right.begin());
-
-        cout<< 2*(idx2-idx1+1)<<" ";
+            if(root1+root2 == (-b) && root1*root2==c)
+            {
+                ll r1=root1;
+                ll r2=root2;
+                ll val=0;
+                if(root1==root2)
+                {
+                    cout<<(fre[root1]*(fre[root2]-1))/2<<" ";
+                }
+                else
+                {
+                   cout<<fre[root1]*fre[root2]<<" ";
+                }
+                continue;
+            }
+            else
+            {
+                cout<<0<<" ";
+                continue;
+            }   
+        }
     }
     return;
 

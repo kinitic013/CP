@@ -143,21 +143,7 @@ vector<ll> PrimeCount(ll n)
     return ans;
 }
 
-//modular expo
-ll power(ll x, ll y, ll p=(ll)(1e9+7))
-{
-    ll res = 1;  
-    x = x % p; 
-    if (x == 0) return 0;
-    while (y > 0)
-    {
-        if (y & 1)
-            res = (res*x) % p;
-        y = y>>1; // y = y/2
-        x = (x*x) % p;
-    }
-    return res;
-}
+
 // array containing all divisors
 vi Divisors(ll n)
 {
@@ -279,4 +265,37 @@ bool IntegerPalindromeCheck(ll n)
         i++;j--;
     }
     return true;
+}
+//modular expo
+ll power(ll x, ll y, ll p=(ll)(1e9+7))
+{
+    ll res = 1;  
+    x = x % p; 
+    if (x == 0) return 0;
+    while (y > 0)
+    {
+        if (y & 1)
+            res = (res*x) % p;
+        y = y>>1; // y = y/2
+        x = (x*x) % p;
+    }
+    return res;
+}
+
+///Rolling Hash funciton 
+
+ll rollingHashFunction(string arr)
+{
+    ll n=arr.size();
+    ll MOD=(ll)(1e9+7);
+    ll p=31;
+    ll prime=p;
+    ll hash=0;
+    REP(i,0,n)
+    {
+        ll current=((arr[i]-'a'+1)*prime)%MOD;
+        hash=(hash+current)%MOD;
+        prime=(prime*p)%MOD;
+    }
+    return hash;
 }

@@ -1,24 +1,22 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-int main() {
-  string a, b;
-  cin >> a >> b;
-  int na = a.size(), nb = b.size();
-  vector<vector<int>> dp(na+1, vector<int>(nb+1,1e9));
-  dp[0][0] = 0;
-  for (int i = 0; i <= na; i++) {
-    for (int j = 0; j <= nb; j++) {
-      if (i) {
-	dp[i][j] = min(dp[i][j], dp[i-1][j]+1);
-      }
-      if (j) {
-	dp[i][j] = min(dp[i][j], dp[i][j-1]+1);
-      }
-      if (i && j) {
-	dp[i][j] = min(dp[i][j], dp[i-1][j-1]+(a[i-1] != b[j-1]));
-      }
-    }
-  }
-  cout << dp[na][nb] << endl;
+int main(){
+	ios::sync_with_stdio(0);cin.tie(0);
+	int t;cin>>t;
+	while(t--){
+		long long x,k,p;cin>>x>>k>>p;
+		long long a[x+1],ans=0,sum=0;
+		priority_queue<long long>q;
+		for(int i=1;i<=x;i++){
+			cin>>a[i];
+			if(a[i]<0)continue;
+			q.push(-a[i]);sum+=a[i];
+			while(q.size()>k){
+				sum+=q.top();q.pop();
+			}
+			ans=max(ans,sum-i*p);
+		}
+		cout<<ans<<"\n";
+	}
+	return 0;
 }

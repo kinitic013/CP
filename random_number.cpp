@@ -8,7 +8,6 @@ using namespace std;
 #define ff first
 #define ss second
 #define pb push_back
-#define endl '\n'
 #define mp make_pair
 #define mii map<ll,ll>
 #define pii pair<ll,ll>
@@ -19,24 +18,33 @@ using namespace std;
 #define input vi arr;REP(i,0,n){ll ele;cin>>ele;arr.pb(ele);}
 #define MOD (ll)(1e9+7)
 #define mod (ll)998244353
-void fast()
+bool isPowerOfTwo(int n)
 {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
+    if (n == 0)
+        return false;
+ 
+    return (ceil(log2(n)) == floor(log2(n)));
+}
+bool cmps(pii a,pii b)
+{
+    return a.ss<b.ss;
 }
 void  solve()
 {
-	
+    // A=1 , B=10 , C=100 , D=1000 , E=10000
+    string arr;
+    cin>>arr;
+    REP(i,0,n)
+    return;
 }
 int main()
 {
-    fast();
     ll t;
     cin>>t;
     while(t--)
     {
         solve();
-        cout<<endl;
+        cout<<"\n";
     }
     return 0;
 }

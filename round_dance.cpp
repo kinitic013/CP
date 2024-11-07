@@ -41,47 +41,55 @@ bool cmps(pii &a, pii &b)
 {
     return a.ss < b.ss;
 }
+void dfs(vector<set<ll>> &adj , vb&visited , int node , bool &flag)
+{
+    if(adj[node].size()!=2)
+    flag=false;
+
+    if(visited[node])
+    return;
+    visited[node]=1;
+    auto it = adj[node].begin();
+    while(it!=adj[node].end())
+    {
+        if(!visited[*it])
+        dfs(adj,visited,*it , flag);
+
+        it++;
+    }
+    return;
+}
 void solve()
 {
-    ll n,k;
-    cin>>n>>k;
+    int n;cin>>n;
+    vector<set<ll>> adj(n);
     vi arr(n);
-    vi left(n);
-    vi right(n);
-    vb present(k+1,false);
     REP(i,0,n)
     {
         cin>>arr[i];
-        present[arr[i]]=1;
+        adj[i].insert(arr[i]-1);
+        adj[arr[i]-1].insert(i);
     }
-    left[0] = arr[0];
-    right[n-1] = arr[n-1];
-    REP(i,1,n)
+    vb visited(n,false);
+    ll complete=0;
+    ll incomplete=0;
+
+    REP(i,0,n)
     {
-        left[i]=max(left[i-1],arr[i]);
-    }
-    for(ll i = n-2;i>=0;i--)
-    {
-        right[i] = max(right[i+1],arr[i]);
-    }
-    reverse(all(right));
-    REP(i,1,k+1)
-    {
-        if(!present[i])
+        bool flag= true;
+        if(!visited[i])
         {
-            cout<<0<<" ";
-            continue;
+            dfs(adj,visited, i , flag);
+            if(!flag)
+            incomplete++;
+            else
+            complete++;
         }
-        auto l = lower_bound(all(left),i);
-        auto r = lower_bound(all(right),i);
-
-        ll idx1 = l-left.begin();
-        ll idx2 = n-1-(r-right.begin());
-
-        cout<< 2*(idx2-idx1+1)<<" ";
     }
+    ll maximum = incomplete + complete;
+    ll minimun = complete + (incomplete ? 1 : 0);
+    cout<<minimun<<" "<<maximum;
     return;
-
 }
 int main()
 {

@@ -1,1 +1,1 @@
-{"name":"Local: test","url":"/home/kinitic013/Desktop/cf/CP/test.cpp","tests":[{"id":1684047292499,"input":"mks\nsdsldeb","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/kinitic013/Desktop/cf/CP/test.cpp","group":"local","local":true}
+{"name":"Local: test","url":"/home/kinitic013/Desktop/cf/CP/test.cpp","tests":[{"id":1690641434492,"input":"1\n2 2 6\n90 5","output":"84"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/kinitic013/Desktop/cf/CP/test.cpp","group":"local","local":true}

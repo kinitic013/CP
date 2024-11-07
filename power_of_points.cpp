@@ -24,26 +24,40 @@ void fast()
     cin.tie(0);
     cout.tie(0);
 }
-long long my_sqrt(long long a)
-{
-    long long l=0,r=5000000001;
-    while(r-l>1)
-    {
-        long long mid=(l+r)/2;
-        if(1ll*mid*mid<=a)l=mid;
-        else r=mid;
-    }
-    return l;
-}
 bool cmps(pii &a, pii &b)
 {
     return a.ss < b.ss;
 }
 
-
 void solve()
 {
-    
+    int  n;cin>>n;
+    vector<pii> arr;
+    REP(i,0,n) 
+    {
+        ll ele;cin>>ele;
+        arr.pb({ele,i});
+    }
+    sort(all(arr));
+
+    vector<pii> res(n,{0,0});
+    REP(i,0,n)
+    {
+        res[0].ff=arr[0].ss;
+        res[0].ss+=(arr[i].ff-arr[0].ff+1);
+    }
+    REP(i,1,n)
+    {
+        ll val=(arr[i].ff-arr[i-1].ff)*(2*i-n);
+        res[i].ss=res[i-1].ss+val;
+        res[i].ff=arr[i].ss;
+    }
+    sort(all(res));
+    REP(i,0,n)
+    {
+        cout<<res[i].ss<<" ";
+    }
+    return ;
 }
 int main()
 {

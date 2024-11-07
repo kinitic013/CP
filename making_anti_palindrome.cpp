@@ -43,43 +43,66 @@ bool cmps(pii &a, pii &b)
 }
 void solve()
 {
-    ll n,k;
-    cin>>n>>k;
-    vi arr(n);
-    vi left(n);
-    vi right(n);
-    vb present(k+1,false);
+    ll n;cin>>n;
+    string arr;
+    cin>>arr;
+    if(n&1)
+    {
+        cout<<-1;
+        return;
+    }
+    vi fre(26,0);
     REP(i,0,n)
     {
-        cin>>arr[i];
-        present[arr[i]]=1;
-    }
-    left[0] = arr[0];
-    right[n-1] = arr[n-1];
-    REP(i,1,n)
-    {
-        left[i]=max(left[i-1],arr[i]);
-    }
-    for(ll i = n-2;i>=0;i--)
-    {
-        right[i] = max(right[i+1],arr[i]);
-    }
-    reverse(all(right));
-    REP(i,1,k+1)
-    {
-        if(!present[i])
+        fre[arr[i]-'a']++;
+        if(fre[arr[i]-'a']>n/2)
         {
-            cout<<0<<" ";
-            continue;
+            cout<<-1;
+            return;
         }
-        auto l = lower_bound(all(left),i);
-        auto r = lower_bound(all(right),i);
-
-        ll idx1 = l-left.begin();
-        ll idx2 = n-1-(r-right.begin());
-
-        cout<< 2*(idx2-idx1+1)<<" ";
     }
+    fre = vi(26,0);
+    ll i=0;
+    ll j=n-1;
+    while(i<j)
+    {
+        if(arr[i] == arr[j])
+        {
+            fre[arr[i]-'a']++;
+        }
+        i++;
+        j--;
+    }
+    multiset<ll> s;
+    REP(i,0,26)
+    {
+        if(fre[i])
+        s.insert(fre[i]);
+    }
+    ll count = 0;
+    while(s.size()>1)
+    {
+        auto mini = s.begin();
+        auto maxi = --s.end();
+
+        count++;
+        ll val1 = *mini;
+        ll val2 = *maxi;
+        s.erase(mini);s.erase(maxi);
+        
+        val1--;
+        val2--;
+        if(val1)
+        s.insert(val1);
+        if(val2)
+        s.insert(val2);
+
+    }
+    if(s.size()>0)
+    {
+        count+=(*s.begin());
+    }
+    cout<<count;
     return;
 
 }

@@ -15,6 +15,7 @@ using namespace std;
 #define vi vector<ll>
 #define vvi vector<vi>
 #define vb vector<bool>
+#define vp vector<pii>
 #define all(x) (x).begin(), (x).end()
 #define endl '\n'
 #define REP(i, a, b) for (ll i = a; i < b; i++)
@@ -43,44 +44,33 @@ bool cmps(pii &a, pii &b)
 }
 void solve()
 {
-    ll n,k;
-    cin>>n>>k;
-    vi arr(n);
-    vi left(n);
-    vi right(n);
-    vb present(k+1,false);
-    REP(i,0,n)
+    ll n;cin>>n;
+    string arr;
+    cin>>arr;
+    if(n&1)
     {
-        cin>>arr[i];
-        present[arr[i]]=1;
+        cout<<-1;
+        return;
     }
-    left[0] = arr[0];
-    right[n-1] = arr[n-1];
-    REP(i,1,n)
+    vvi adj(26);
+    ll i=0;
+    ll j=n-1;
+    vp m(26,{0,0});
+    while(i<j)
     {
-        left[i]=max(left[i-1],arr[i]);
-    }
-    for(ll i = n-2;i>=0;i--)
-    {
-        right[i] = max(right[i+1],arr[i]);
-    }
-    reverse(all(right));
-    REP(i,1,k+1)
-    {
-        if(!present[i])
+        if(arr[i] == arr[j])
         {
-            cout<<0<<" ";
-            continue;
+            m[arr[i]-'a'].ss+=2;
+            m[arr[i]-'a'].ff=arr[i]-'a';
         }
-        auto l = lower_bound(all(left),i);
-        auto r = lower_bound(all(right),i);
-
-        ll idx1 = l-left.begin();
-        ll idx2 = n-1-(r-right.begin());
-
-        cout<< 2*(idx2-idx1+1)<<" ";
+        else
+        {
+            adj[arr[i]-'a'].pb(arr[j]-'a');
+            adj[arr[j]-'a'].pb(arr[i]-'a');
+        }
+        i++;
+        j--;
     }
-    return;
 
 }
 int main()
