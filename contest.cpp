@@ -235,95 +235,13 @@ bool cmps(pii &a, pii &b)
 {
     return a.ss < b.ss;
 }
-class Node {
-
-private:
-    char data;
-    unordered_map<char,Node*> children;
-    bool isTerminal;
-    int count=0;
-
-public:
-    Node(char d)
-    {
-        data=d;
-        isTerminal=false;
-        count = 0;
-
-    }
-    friend class Trie;
-};
-
-
-class Trie {
-private : 
-    Node* root;
-public :
-    Trie()
-    {
-        root= new Node('\0');
-    }
-
-    //Insertion
-
-    void insert(string str)
-    {
-        Node* it=root;
-        it->count++;
-        for(int i=0;i<str.size();i++)
-        {
-            auto add=it->children.find(str[i]);   
-            if(add==it->children.end())//not found
-            {
-                Node* ele= new Node(str[i]);
-                it->children.insert({str[i],ele});
-                it=ele;
-                it->count = 1;
-            }
-            else// if element is already present
-            {   
-                it=add->second;
-                it->count++;
-            }
-        }
-        it->isTerminal=true;
-    }
-    void dfs(Node* curr,ll len,vector<int>& res)
-    {
-        if(curr != root)
-        res[len] = max(res[len],curr->count);
-
-        auto it = curr->children.begin();
-        while(it != curr->children.end())
-        {
-            dfs(it->second,len+1,res);
-            it++;
-        }
-    }
-    vector<int> helper(ll m)
-    {
-        vector<int> result(m,0);
-        int len = 0;
-        Node* it = root;
-        dfs(it,len,result);
-        return result;
-    }
-};
-
 void solve(ll t)
 {
-    int n;cin>>n;
-    vector<string> arr(n);
-    Trie T;
-    REP(i,0,n) 
-    {
-        cin>>arr[i];
-        T.insert(arr[i]);
-    }
-    vector<int> result = T.helper(arr[0].size()+1);
-    for(auto x : result)
-    cout<<x<<" ";
-    return;
+    ll a,b;cin>>a>>b;
+    if(a == 1 && b == 1)
+    cout<<1;
+    else
+    cout<<b-a;
 }
 int main()
 {

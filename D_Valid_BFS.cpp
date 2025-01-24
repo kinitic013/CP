@@ -233,86 +233,127 @@ long long my_sqrt(long long a)
 }
 bool cmps(pii &a, pii &b)
 {
+    // ll size1 = a.ss - a.ff;
+    // ll size2 = b.ss - b.ff;
+    // if(size1 != size2)
+    // return size1<size2;
+    if(a.ff != b.ff)
+    return a.ff < b.ff;
+
     return a.ss < b.ss;
 }
-void dfs(vvi&adj,ll node,ll parent,vi& par)
+void dfs(vvi& adj,vi& parent,ll node,ll par)
 {
-    par[node] = parent;
+    parent[node] = par;
     for(auto x : adj[node])
     {
-        if(x != parent)
-        dfs(adj,x,node,par);
+        if(x != par)
+        {
+            parent[x] = node;
+            dfs(adj,parent,x,node);
+        }
     }
+}
+vector<ll> segTree;
+void build(vector<ll>& arr, ll start , ll end , ll index)
+{
+    if(start == end)
+    {
+        segTree[index] = arr[start];
+        return; 
+    }
+    ll mid = (start + end)/2;
+    ll left = index*2+1;
+    ll right = index*2 + 2;
+    build(arr,start,mid,left);
+    build(arr,mid+1,end,right);
+    segTree[index] = (segTree[left]+segTree[right]);
+}
+void update(vector<ll>& arr , ll start , ll end , ll index , ll pos , ll value)
+{
+    if(start == end)
+    {
+        arr[pos] = value;
+        segTree[index] = value;
+        return;
+    }
+    ll mid = (start + end)/2;
+    ll left = index*2 + 1;
+    ll right = index*2 + 2;
+    if(pos<=mid)
+    {
+        update(arr,start,mid,left,pos,value);
+    }
+    else
+    {
+        update(arr,mid+1,end,right,pos,value);
+    }
+    segTree[index] = (segTree[left]+segTree[right]);
+}
+ll query(ll start,ll end , ll index , ll l , ll r)
+{
+    ll left = index*2 + 1;
+    ll right = index*2 + 2;
+    ll mid = (start + end )/2;
+    // if current node contributes entirely
+    if(start>=l && end<=r)
+    {
+        return segTree[index];
+    }
+    // if current node contribute nothing
+    else if(r<start || end<l)
+    {
+        return 0;
+    }
+    // if contributes partially
+    else
+    {
+        ll leftValue = query(start,mid,left,l,r);
+        ll rightValue = query(mid+1,end,right,l,r);
+        return (leftValue+rightValue);
+    }
+    return 0;
 }
 void solve(ll t)
 {
     ll n;cin>>n;
-    vvi adj(n+1);
+    vvi adj(n);
     REP(i,1,n)
     {
         ll u,v;cin>>u>>v;
+        u--;v--;
         adj[u].pb(v);
         adj[v].pb(u);
     }
     vi perm(n);
+    vi idx(n,0);
     REP(i,0,n)
     {
         cin>>perm[i];
+        perm[i]--;
+        idx[perm[i]] = i;
     }
-    vi parent(n+1,0);
-    dfs(adj,1,0,parent);
-    queue<ll> q;
-    vb visited(n+1,0);
-    vi par;
-    vi child;
-    ll start = 0;
-    ll end = start+1;
-    par.pb(1);
-    q.push(1);
-    q.push(-1);
-    while(!q.empty())
+    segTree.resize(4*n,0);
+    vi parent(n,0);
+    dfs(adj,parent,0,0);
+    vpii invervals;
+    vi range(n,0);
+    if(perm[0] != 0)
     {
-        ll top = q.front();
-        if(top == -1)
+        cout<<"No";
+        return;
+    }
+    for(int i=n-1;i>=0;i--)
+    {
+        ll l = idx[parent[perm[i]]];
+        ll r = i;
+        ll val = query(0,n-1,0,0,l-1);
+        if(val >= 1)
         {
-            if(q.empty())
-            break;
-
-
-            int i=0;
-            int j=0;
-            while(i<par.size() && j<child.size())
-            {
-                if(parent[child[j]] == par[i])
-                {
-                    j++;
-                }
-                else
-                {
-                    i++;
-                }
-            }
-            if(i == par.size())
-            {
-                cout<<"No";
-                return;
-            }
-            par = child;
-            child = vi();
-            q.push(-1);
+            cout<<"No";
+            return;
         }
-        else
-        {
-            visited[top] = 1;
-            for(auto x : adj[top])
-            {
-                if(visited[x]==0)
-                {
-                    q.push(x);
-                    child.pb(x);
-                }
-            }   
-        }
+        update(range,0,n-1,0,l,1);
     }
     cout<<"Yes";
 }

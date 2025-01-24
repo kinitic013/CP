@@ -1,121 +1,115 @@
 #include<bits/stdc++.h>
 using namespace std;
-vector<int> segTree;
-vector<int> lazySegTree;
+vector<long long> segTree;
+vector<long long> lazySegTree;
 
 // 
-void build(vector<int>& arr, int start , int end , int index)
+void build(vector<long long>& arr, long long start , long long end , long long index)
 {
     if(start == end)
     {
         segTree[index] = arr[start];
         return; 
     }
-    int mid = (start + end)/2;
-    int left = index*2+1;
-    int right = index*2 + 2;
+    long long mid = (start + end)/2;
+    long long left = index*2+1;
+    long long right = index*2 + 2;
     build(arr,start,mid,left);
     build(arr,mid+1,end,right);
-    segTree[index] = (segTree[left]+segTree[right]);
+    segTree[index] = min(segTree[left],segTree[right]);
 }
-void rangeUpdate(vector<int>&arr , int start , int end , int index , int l , int r , int value)
-{
-    int n = arr.size();
-    int left = index*2 + 1;
-    int right = index*2 + 2;
-    int mid = (start + end )/2;
+void rangeUpdate(vector<long long>& arr, long long start, long long end, long long index, long long l, long long r, long long value) {
+    long long segTreeSize = segTree.size();
+    long long left = index * 2 + 1;
+    long long right = index * 2 + 2;
+    long long mid = (start + end) / 2;
 
-    if(lazySegTree[index]!=0)// some update query is queued
-    {
-        segTree[index] += lazySegTree[index]*(end-start+1);
-        if(left<4*n)// physically present 
-        lazySegTree[left] +=lazySegTree[index];
-        if(right<4*n)// physically present 
-        lazySegTree[right] +=lazySegTree[index];
-
+    // Apply pending lazy updates
+    if (lazySegTree[index] != 0) {
+        segTree[index] += lazySegTree[index];
+        if (start != end) { // Propagate lazy value to children
+            lazySegTree[left] += lazySegTree[index];
+            lazySegTree[right] += lazySegTree[index];
+        }
         lazySegTree[index] = 0;
     }
-    // if current node contributes entirely
-    if(start>=l && end<=r)
-    {
-        segTree[index] += (end-start+1)*value;
-        if(left<4*n)// physically present 
-        lazySegTree[left] +=value;
-        if(right<4*n)// physically present 
-        lazySegTree[right] +=value;
+
+    // No overlap
+    if (r < start || l > end) {
+        return;
     }
-    // if current node contribute nothing
-    else if(r<start || end<l)
-    {
-        // return {INT_MAX,INT_MAX};
+
+    // Total overlap
+    if (start >= l && end <= r) {
+        segTree[index] += value;
+        if (start != end) { // Update lazy for children
+            lazySegTree[left] += value;
+            lazySegTree[right] += value;
+        }
+        return;
     }
-    // if contributes partially
-    else
-    {
-        rangeUpdate(arr,start,mid,left,l,r,value);
-        rangeUpdate(arr,mid+1,end,right,l,r,value);
-    }
+
+    // Partial overlap
+    rangeUpdate(arr, start, mid, left, l, r, value);
+    rangeUpdate(arr, mid + 1, end, right, l, r, value);
+    segTree[index] = min(segTree[left], segTree[right]); // Update the current node
 }
-int queryRange(int start,int end , int index , int l , int r)// sum of l to R
-{
-    int n = lazySegTree.size();
-    int left = index*2 + 1;
-    int right = index*2 + 2;
-    int mid = (start + end )/2;
 
-    if(lazySegTree[index]!=0)// some update query is queued
-    {
-        segTree[index] += lazySegTree[index]*(end-start+1);
-        if(left<n)// physically present 
-        lazySegTree[left] +=lazySegTree[index];
-        if(right<n)// physically present 
-        lazySegTree[right] +=lazySegTree[index];
+long long queryRange(long long start, long long end, long long index, long long l, long long r) {
+    long long segTreeSize = segTree.size();
+    long long left = index * 2 + 1;
+    long long right = index * 2 + 2;
+    long long mid = (start + end) / 2;
 
+    // Apply pending lazy updates
+    if (lazySegTree[index] != 0) {
+        segTree[index] += lazySegTree[index];
+        if (start != end) { // Propagate lazy value to children
+            lazySegTree[left] += lazySegTree[index];
+            lazySegTree[right] += lazySegTree[index];
+        }
         lazySegTree[index] = 0;
     }
-    
-    // if current node contributes entirely
 
-    if(start>=l && end<=r)
-    {
+    // No overlap
+    if (r < start || l > end) {
+        return LONG_LONG_MAX;
+    }
+
+    // Total overlap
+    if (start >= l && end <= r) {
         return segTree[index];
     }
-    // if current node contribute nothing
-    else if(r<start || end<l)
-    {
-        return 0;
-    }
-    // if contributes partially
-    else
-    {
-        int leftValue = queryRange(start,mid,left,l,r);
-        int rightValue = queryRange(mid+1,end,right,l,r);
-        return leftValue + rightValue;
-    }
-    return 0;
+
+    // Partial overlap
+    long long leftValue = queryRange(start, mid, left, l, r);
+    long long rightValue = queryRange(mid + 1, end, right, l, r);
+    return min(leftValue, rightValue);
 }
 
 int main()
 {
-    int n;cin>>n;
-    vector<int> arr(n);
+    long long n,q;cin>>n>>q;
+    vector<long long> arr(n,0);
     segTree.resize(4*n,0);
     lazySegTree.resize(4*n,0);
-    for(int i=0;i<n;i++)
-    {
-        cin>>arr[i];
-    }
+    
     build(arr,0,n-1,0);
-    // pointUpdate(arr,0,n-1,0,3,10);
-    cout<<queryRange(0,n-1,0,0,0)<<endl;
-    rangeUpdate(arr,0,n-1,0,4,7,10);
-    cout<<queryRange(0,n-1,0,0,5)<<endl;
-    for(auto x : segTree)  
-    cout<<x<<" ";
-    cout<<endl;
-
-    for(auto x : lazySegTree)  
-    cout<<x<<" ";
-    cout<<endl;
+    // polong longUpdate(arr,0,n-1,0,3,10);
+    for(long long i=0;i<q;i++)
+    {
+        long long type;cin>>type;
+        long long l,r;cin>>l>>r;
+        r--;
+        if(type == 1)
+        {
+            long long v;cin>>v;
+            rangeUpdate(arr,0,n-1,0,l,r,v);
+        }
+        else
+        {
+            cout<<queryRange(0,n-1,0,l,r)<<"\n";
+        }
+    }
     return 0;
 }

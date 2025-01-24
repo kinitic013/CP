@@ -1,9 +1,6 @@
-#include<bits/stdc++.h>
-using namespace std;
+
 vector<int> segTree;
 vector<int> segSecondMin;
-
-
 void build(vector<int>& arr, int start , int end , int index)
 {
     if(start == end)

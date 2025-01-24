@@ -235,41 +235,53 @@ bool cmps(pii &a, pii &b)
 {
     return a.ss < b.ss;
 }
-ll gcd( ll a, ll b, ll& curr)
+ll steps(ll a,ll b)
 {
-    if( a == 0)
-        return curr;
-
+    if(b == 0)
+    return 0;
+    ll res = 0;
     if(a<b)
     {
-        curr++;
-        a = a^b;
-        b = a^b;
-        a = a^b;
+        ll temp = b;
+        b = b - a;
+        a = temp;
+        res++;
     }
-    
-    curr++;
-    curr += a/b;
-  return gcd(b, a % b);
-}
-ll cal(ll a, ll b)
-{
+    ll m = a/(2*b);
+    res += 3*m;
+    a = a - (2*m*b);
+    b = b;
 
+    if(m == 0)
+    {
+        ll temp = b;
+        b = a - b;
+        a = temp;
+        res++;
+    }
+    res+= steps(a,b);
+    return res;
 }
- 
 void solve(ll t)
 {
     ll n;cin>>n;
-    vi arr(n),brr(n);
-    REP(i,0,n) cin>>arr[i];
-    REP(i,0,n) cin>>brr[i];
-    vi val(n,0); 
-    REP(i,0,n)
+    vi a(n),b(n);
+    REP(i,0,n) cin>>a[i];
+    REP(i,0,n) cin>>b[i];
+
+    set<ll> s;
+    REP(i,0,n) 
     {
-        if(arr[i] > brr[i])
-        val[i] = cal(arr[i],brr[i]);
+        if(a[i] == 0 && b[i] == 0)
+        continue;
+
+        ll val = steps(a[i],b[i]);
+        s.insert(val%3);
     }
-    cout.flush();
+    if(s.size()>1)
+    cout<<"NO";
+    else
+    cout<<"YES";
     return;
 }
 int main()

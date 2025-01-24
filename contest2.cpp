@@ -235,30 +235,81 @@ bool cmps(pii &a, pii &b)
 {
     return a.ss < b.ss;
 }
-void solve(vi& p)
+void solve(ll t)
 {
-    
+    ll n,d,l;cin>>n>>d>>l;
+    if (d > n - 1 || l < 2 || l > n - d + 1)
+    {
+        cout << -1 << endl;
+        return;
+    }
+    int node_count = 1;
+    vpii edges;
+    // Build the central path
+    vi distance(n+1,0);
+    for (int i = 1; i <= d; ++i)
+    {
+        edges.push_back({i, i + 1});
+        node_count = i + 1;
+        distance[i] = max<ll>(i-1,d-i+1);
+    }
+    int extra_nodes = n - (d + 1);
+    int extra_leaves_needed = l - 2;
+    int middle_nodes = (d+2)/2;
+    int current_node = node_count+1;
+    // if(extra_nodes > extra_leaves_needed*((d/2)-1))
+    // {
+    //     cout<<-1;
+    //     return;
+    // }
+    vi leaf;
+    REP(i,0,extra_leaves_needed)
+    {
+        leaf.pb(current_node);
+        edges.push_back({middle_nodes, current_node});
+        distance[current_node] = distance[middle_nodes] + 1;
+        if(distance[middle_nodes] > d)
+        {
+            cout<<-1;
+            return;
+        }
+        current_node++;
+        extra_nodes--;
+    }
+    ll i = 0;
+    while(extra_nodes>0 && i<leaf.size())
+    {
+        if(distance[leaf[i]]+1 <=d)
+        {
+            edges.push_back({leaf[i], current_node});
+            distance[current_node] = distance[leaf[i]] + 1;
+            leaf[i] = current_node;
+            current_node++;
+            extra_nodes--;
+        }
+        else
+        {
+            i++;
+        }
+    }
+    if(i == leaf.size() && current_node!= n+1)
+    {
+        cout<<-1;
+        return;
+    }
+    for(auto x : edges)
+    {
+        cout<<x.first<<" "<<x.second<<endl;
+    }
 }
 int main()
 {
     fast();
-    #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-    #endif
-
-    vi p;
-    ll ele = 1;
-    REP(i,0,32)
-    {
-        p.pb(ele);
-        ele*=2;
-    }
     ll t;
     cin >> t;
-    while (t--)
+    REP(T,1,t+1)
     {
-        solve(p);
+        solve(T);
         cout << endl;
     }
     return 0;

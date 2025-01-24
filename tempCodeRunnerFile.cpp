@@ -1,2 +1,2 @@
-            contri_curr[v] -= weight;
-            ans += w - know;
+    // cout<<ans;
+    // return;
